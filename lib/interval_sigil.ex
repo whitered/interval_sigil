@@ -1,40 +1,54 @@
 defmodule IntervalSigil do
   @moduledoc """
-  Interval sigils ~i and ~I
+  The `IntervalSigil` library introduces the `~i` and `~I` sigils for intuitive and precise time intervals definition. 
 
-  Allow easily define time intervals:
+  ## Features
 
-  ## Examples:
+  - Convert time intervals from a human-readable format.
+  - Convert intervals to various units, including fractional values.
+  - Support for multiple time units within a single definition.
 
-    iex> import IntervalSigil
-    iex> ~i"2m 15s"
-    135000
+  ## Examples
 
-  Converts interval into milliseconds by default, other units available as modifiers:
+  ### Default Conversion to Milliseconds
+  ```elixir
+      iex> import IntervalSigil
+      iex> ~i"2m 15s"
+      135000
+  ```
 
-    iex> ~i"2m 15s"s
-    135
+  ### Conversion to Alternative Units
+  ```elixir
+      iex> ~i"2m 15s"s
+      135
+  ```
 
-  Available units are:
-  - nanosecond (ns)
-  - microsecond (us)
-  - millisecond (ms, default)
-  - second (s)
-  - minute (m)
-  - hour (h)
-  - day (D)
-  - week (W)
-  - month (M, =30 days)
-  - year (Y, =365 days)
+  ### Floating-Point Results with `~I`
+  ```elixir
+      iex> ~I"6D"M
+      0.2 # Converts days to months (1 month = 30 days)
 
-  Interval may consist of multiple units from bigger to smaller, joined together or separated by space(s):
+      iex> ~I"75s"m
+      1.25 # Converts seconds to minutes
+  ```
 
-  Also the '~I' sigil available, allowing to convert to float values:
+  ## Supported Units
 
-    iex> ~I"6D"M
-    0.2
-    iex> ~I"75s"m
-    1.25
+    - nanosecond (ns)
+    - microsecond (us)
+    - millisecond (ms, default)
+    - second (s)
+    - minute (m)
+    - hour (h)
+    - day (D)
+    - week (W)
+    - month (M, =30 days)
+    - year (Y, =365 days)
+
+  ## Additional Information
+
+  - Intervals can include multiple units ordered from largest to smallest, either separated by spaces (e.g., `~i"1h 30m"`) or combined (e.g., `~i"1h30m"`).
+  - The `~i` sigil converts to integer values, while `~I` provides fractional results.
   """
 
   @nanosecond 1
@@ -64,7 +78,7 @@ defmodule IntervalSigil do
   @doc """
   Handles the sigil ~i for integer intervals.
 
-  This sigil converts string representation of interval to integer number of units.
+  This sigil converts string representation of an interval to integer number of units.
   """
   def sigil_i(string, []), do: sigil_i(string, ~c"ms")
 
@@ -77,7 +91,7 @@ defmodule IntervalSigil do
   @doc """
   Handles the sigil ~I for float intervals.
 
-  This sigil converts string representation of interval to float number of units.
+  This sigil converts string representation of an interval to float number of units.
   """
   def sigil_I(string, []), do: sigil_I(string, ~c"ms")
 
