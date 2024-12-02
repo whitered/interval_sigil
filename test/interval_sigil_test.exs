@@ -32,4 +32,34 @@ defmodule IntervalSigilTest do
       assert ~I"1D"W == 0.14285714285714285
     end
   end
+
+  describe "to_integer/2" do
+    test "default unit = ms" do
+      assert to_integer("1s") == 1000
+      assert to_integer("1m2s") == 62000
+      assert to_integer(" 1m 2s ") == 62000
+      assert to_integer("1Y2M3W4D6h6m7s8ms9us10ns") == 38_901_967_008
+    end
+
+    test "custom units" do
+      assert to_integer("1s", "m") == 0
+      assert to_integer("1s", "us") == 1_000_000
+      assert to_integer("1s", "ns") == 1_000_000_000
+      assert to_integer("4h20m", "m") == 260
+    end
+  end
+
+  describe "to_float/2" do
+    test "default unit = ms" do
+      assert to_float("1s") == 1000.0
+      assert to_float(" 1m 2s 3ms 4us") == 62003.004
+      assert to_float("1Y2M3W4D6h6m7s8ms9us10ns") == 38_901_967_008.00901
+    end
+
+    test "custom units" do
+      assert to_float("1m3s", "m") == 1.05
+      assert to_float("123us", "ms") == 0.123
+      assert to_float("1D", "W") == 0.14285714285714285
+    end
+  end
 end

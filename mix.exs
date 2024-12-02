@@ -6,7 +6,7 @@ defmodule IntervalSigil.MixProject do
   def project do
     [
       app: :interval_sigil,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -27,7 +27,7 @@ defmodule IntervalSigil.MixProject do
   end
 
   defp description do
-    "Interval Sigils `~i` and `~I` for human-readable definition of time intervals in any unit"
+    "Interval sigils and conversion utilities"
   end
 
   defp package do
